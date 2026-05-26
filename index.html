@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ayojan Catering Packages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #222;
+        }
+        .page-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+        }
+        .panel {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            margin: 8px 8px 0 0;
+            background: #2f8f55;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.18s ease, background 0.18s ease;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            background: #257645;
+        }
+        .actions button {
+            min-width: 140px;
+        }
+        #menuDetails, #adminPackageDetails, #dataDisplay {
+            margin-top: 20px;
+        }
+        .menu-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 16px;
+        }
+        .menu-column {
+            display: block;
+            background: #ffffff;
+            border: 1px solid #e2e2e2;
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .menu-column h4 {
+            margin-bottom: 10px;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        .menu-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .repeated {
+            background: #fff4d6;
+            border-left: 4px solid #f1b600;
+            padding: 6px 10px;
+        }
+        .summary-card, .admin-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            background: #fafafa;
+        }
+        .admin-section {
+            display: grid;
+            gap: 18px;
+        }
+        .admin-block {
+            padding: 16px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .card-row > * {
+            flex: 1;
+            min-width: 220px;
+        }
+        .barcode-box {
+            margin-top: 18px;
+            padding: 12px;
+            border: 1px dashed #999;
+            border-radius: 12px;
+            background: #fff;
+        }
+        .print-header {
+            display: none;
+            text-align: center;
+            padding: 20px 0 30px;
+            background: white;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #2f8f55;
+        }
+        .print-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        .print-header h1 {
+            margin: 0 0 8px 0;
+            font-size: 2.2rem;
+            color: #2f8f55;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .print-header p {
+            margin: 0;
+            color: #555;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .order-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-weight: 700;
+        }
+        .print-selected-mode .admin-card:not(.print-active) {
+            display: none;
+        }
+        #dataDisplay h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #2f8f55;
+            text-decoration: underline;
+        }
+        .order-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .summary-stat {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .selected-item {
+            display: block;
+            margin: 6px 0;
+            line-height: 1.5;
+        }
+        .order-card p,
+        .order-card .selected-item {
+            margin: 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+            white-space: normal;
+        }
+        .print-table th {
+            background: #f7f7f7;
+        }
+        .order-card {
+            page-break-inside: avoid;
+        }
+        @page {
+            margin: 12mm;
+        }
+        @media print {
+            html, body {
+                background: white;
+                margin: 0;
+                padding: 0;
+                color: #000;
+                min-height: auto !important;
+                height: auto !important;
+            }
+            .print-header {
+                display: block !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+            .page-wrap {
+                max-width: 100%;
+                margin: 0;
+                padding: 12px;
+                page-break-inside: avoid;
+            }
+            .page-header, .actions, button, input, select, textarea, #adminBarcodeContainer {
+                display: none !important;
+            }
+            .admin-block {
+                background: white;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+            .admin-block h3 {
+                display: none;
+            }
+            .panel {
+                box-shadow: none;
+                background: white;
+                page-break-inside: avoid;
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
+            #dataDisplay, #menuDetails, #menuSummary, #orderSummary {
+                display: block !important;
+            }
+            .admin-card, .summary-card {
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+                margin-bottom: 15px;
+                padding: 14px;
+                background: white;
+            }
+            .menu-row {
+                grid-template-columns: 1fr;
+            }
+            .menu-column {
+                padding: 12px;
+            }
+            .menu-item {
+                display: block;
+            }
+            .order-check {
+                display: none;
+            }
+            .print-selected-mode .admin-card:not(.print-active) {
+                display: none !important;
+            }
+            .print-selected-mode #orderSummary {
+                display: none !important;
+            }
+            body.print-mode.menu-print #adminSection,
+            body.print-mode.menu-print #loginPanel {
+                display: none !important;
+            }
+            body.print-mode.admin-print #menuSection,
+            body.print-mode.admin-print #loginPanel,
+            body.print-mode.admin-print #orderSummary,
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(1),
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(3) {
+                display: none !important;
+            }
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) label,
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) input,
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) select,
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) .actions,
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) a {
+                display: none !important;
+            }
+            body.print-mode.admin-print #adminSection .admin-block:nth-of-type(2) {
+                border: none !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-header" id="printHeader">
+        <img class="logo" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=120&q=80" alt="Catering Logo">
+        <div>
+            <h1>Catering Packages</h1>
+            <p>Delicious catering plans ready for event delivery.</p>
+        </div>
+    </div>
+    <div class="page-wrap">
+        <div class="page-header">
+            <img class="logo" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=120&q=80" alt="Catering Logo">
+            <div>
+                <h1>Ayojan Catering Packages</h1>
+                <p>Choose a package, select menu items, and generate barcode or print order.</p>
+            </div>
+        </div>
+
+        <div class="panel" id="loginPanel">
+            <h2>Login</h2>
+            <label for="userType">User Type</label>
+            <select id="userType">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            <label for="userId">User ID</label>
+            <input type="text" id="userId" placeholder="Enter your user id">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <div class="actions">
+                <button type="button" onclick="login()">Login</button>
+            </div>
+        </div>
+
+        <div class="panel" id="menuSection" style="display:none;">
+            <h2>User Menu Selection</h2>
+            <div class="card-row">
+                <div>
+                    <label for="eventStartDate">Event Start Date</label>
+                    <input type="date" id="eventStartDate">
+                </div>
+                <div>
+                    <label for="dayCount">Days</label>
+                    <select id="dayCount">
+                        <option value="1">1 Day</option>
+                        <option value="2">2 Days</option>
+                        <option value="3">3 Days</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="packageSelect">Package</label>
+                    <select id="packageSelect">
+                        <option value="silver">Silver Package</option>
+                        <option value="gold">Gold Package</option>
+                        <option value="diamond">Diamond Package</option>
+                        <option value="platinum">Platinum Package</option>
+                    </select>
+                </div>
+            </div>
+            <div id="menuDetails"></div>
+            <div class="actions">
+                <button type="button" onclick="saveSelection()">Save Selection</button>
+                <button type="button" onclick="generateBarcode()">Generate Barcode</button>
+                <button type="button" onclick="printMenu()">Print</button>
+                <button type="button" onclick="forwardToAdmin()">Forward to Admin</button>
+            </div>
+            <div id="barcodeContainer" class="barcode-box"></div>
+            <div id="menuSummary" class="summary-card"></div>
+        </div>
+
+        <div class="panel" id="adminSection" style="display:none;">
+            <h2>Admin Panel</h2>
+            <div style="background:#e7f3ff; padding:12px; border-radius:8px; margin-bottom:16px; border-left:4px solid #2196F3;">
+                <strong>📱 Customer Portal:</strong> <a href="customer.html" target="_blank" style="color:#2196F3; text-decoration:none; font-weight:bold;">customer.html</a> - Share this link with customers to place orders from anywhere
+            </div>
+            <div class="admin-section">
+                <div class="admin-block">
+                    <h3>📊 Order Summary</h3>
+                    <div id="orderSummary" class="order-summary-grid"></div>
+                </div>
+                <div class="admin-block">
+                    <h3>Monthly Orders</h3>
+                    <label for="monthSelect">Select Month</label>
+                    <input type="month" id="monthSelect">
+                    <label for="orderDateSelect">Search by Exact Date</label>
+                    <input type="date" id="orderDateSelect">
+                    <label for="customerPhone">Customer Mobile</label>
+                    <input type="tel" id="customerPhone" placeholder="+919XXXXXXXXX">
+                    <div class="actions">
+                                <button type="button" onclick="loadData()">Load Month</button>
+                        <button type="button" onclick="loadDataByDate()">Load Date</button>
+                        <button type="button" onclick="printOrders()">Print Orders</button>
+                        <button type="button" onclick="printSelectedOrders()">Print Selected</button>
+                    </div>
+                    <div id="dataDisplay"></div>
+                    <div id="adminBarcodeContainer" class="barcode-box"></div>
+                </div>
+                <div class="admin-block">
+                    <h3>Package Editor</h3>
+                    <label for="adminPackageSelect">Choose Package</label>
+                    <select id="adminPackageSelect"></select>
+                    <div id="adminPackageDetails"></div>
+                    <div class="card-row">
+                        <div>
+                            <label for="newItemName">New Item</label>
+                            <input type="text" id="newItemName" placeholder="Item name">
+                        </div>
+                        <div>
+                            <label for="newItemMeal">Meal Type</label>
+                            <select id="newItemMeal">
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button type="button" onclick="addAdminItem()">Add Item</button>
+                        <button type="button" onclick="savePackageChanges()">Save Package</button>
+                        <button type="button" onclick="resetPackageToDefault()">Reset Package</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script>
+        const defaultPackages = {
+            silver: {
+                title: 'Silver Package',
+                price: '999',
+                breakfast: ['Pancakes', 'Fruit Salad', 'Coffee'],
+                lunch: ['Grilled Chicken', 'Vegetable Stir Fry', 'Cookies'],
+                dinner: ['Chicken Wings', 'Vegetable Spring Rolls', 'Fruit Salad']
+            },
+            gold: {
+                title: 'Gold Package',
+                price: '1499',
+                breakfast: ['Omelette', 'Cheese Platter', 'Juice'],
+                lunch: ['Beef Steak', 'Pasta Primavera', 'Tiramisu'],
+                dinner: ['Shrimp Cocktail', 'Salmon Fillet', 'Chocolate Cake']
+            },
+            diamond: {
+                title: 'Diamond Package',
+                price: '2499',
+                breakfast: ['Caviar', 'Truffle Bruschetta', 'Champagne'],
+                lunch: ['Lobster Thermidor', 'Truffle Risotto', 'Soufflé'],
+                dinner: ['Foie Gras', 'Wagyu Beef', 'Macarons']
+            },
+            platinum: {
+                title: 'Platinum Package',
+                price: '3999',
+                breakfast: ['Beluga Caviar', 'Gold Leaf Canapés', 'Exotic Juice'],
+                lunch: ['Kobe Beef Tenderloin', 'Black Truffle Pasta', 'Champagne Sorbet'],
+                dinner: ['Seared Scallops', 'Foie Gras Wellington', 'Handmade Truffles']
+            }
+        };
+
+        let packageData = loadPackageData();
+
+        function loadPackageData() {
+            const stored = localStorage.getItem('cateringPackageData');
+            try {
+                return stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(defaultPackages));
+            } catch {
+                return JSON.parse(JSON.stringify(defaultPackages));
+            }
+        }
+
+        function savePackageData() {
+            localStorage.setItem('cateringPackageData', JSON.stringify(packageData));
+        }
+
+        function login() {
+            const userType = document.getElementById('userType').value;
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            if (userId && password) {
+                document.getElementById('loginPanel').style.display = 'none';
+                if (userType === 'admin') {
+                    document.getElementById('adminSection').style.display = 'block';
+                    renderAdminPackageOptions();
+                    loadAllOrdersForSummary();
+                } else {
+                    document.getElementById('menuSection').style.display = 'block';
+                    renderMenuDetails();
+                }
+            } else {
+                alert('Please enter ID and password');
+            }
+        }
+
+        let packageSelect;
+        let eventStartDate;
+        let dayCount;
+
+        function getCurrentMenuContext() {
+            const selectedKey = packageSelect.value;
+            const pack = packageData[selectedKey];
+            const selectedDayCount = parseInt(dayCount.value, 10) || 1;
+            const startDateValue = eventStartDate.value || new Date().toISOString().slice(0, 10);
+            const dates = buildEventDates(startDateValue, selectedDayCount);
+            return { selectedKey, pack, dates };
+        }
+
+        function handleMenuCheckboxChange() {
+            const { pack, dates } = getCurrentMenuContext();
+            document.getElementById('menuSummary').innerHTML = renderMenuSummary(pack, dates);
+        }
+
+        function initPage() {
+            packageSelect = document.getElementById('packageSelect');
+            eventStartDate = document.getElementById('eventStartDate');
+            dayCount = document.getElementById('dayCount');
+
+            if (packageSelect) packageSelect.addEventListener('change', renderMenuDetails);
+            if (eventStartDate) eventStartDate.addEventListener('change', renderMenuDetails);
+            if (dayCount) dayCount.addEventListener('change', renderMenuDetails);
+
+            const menuDetails = document.getElementById('menuDetails');
+            if (menuDetails) {
+                menuDetails.addEventListener('change', event => {
+                    if (event.target.matches('input[type="checkbox"]')) {
+                        handleMenuCheckboxChange();
+                    }
+                });
+            }
+
+            renderMenuDetails();
+        }
+
+        document.addEventListener('DOMContentLoaded', initPage);
+
+        function renderMenuDetails() {
+            const selectedKey = packageSelect.value;
+            const pack = packageData[selectedKey];
+            const repeatedItems = findRepeatedItems(pack);
+            const selectedDayCount = parseInt(dayCount.value, 10) || 1;
+            const startDateValue = eventStartDate.value || new Date().toISOString().slice(0, 10);
+            const dates = buildEventDates(startDateValue, selectedDayCount);
+
+            let html = `<h3>${pack.title} <span style="font-size:0.9rem;color:#666;">(${pack.price})</span></h3>`;
+            html += `<p>Select breakfast, lunch and dinner items for each day of your function. Repeated menu items are highlighted.</p>`;
+
+            dates.forEach((date, dayIndex) => {
+                html += `<div class="summary-card"><strong>Day ${dayIndex + 1} — ${date}</strong></div>`;
+                html += `<div class="menu-row">`;
+                html += renderMealBlock('Breakfast', pack.breakfast, repeatedItems, dayIndex);
+                html += renderMealBlock('Lunch', pack.lunch, repeatedItems, dayIndex);
+                html += renderMealBlock('Dinner', pack.dinner, repeatedItems, dayIndex);
+                html += `</div>`;
+            });
+
+            document.getElementById('menuDetails').innerHTML = html;
+            document.getElementById('menuSummary').innerHTML = renderMenuSummary(pack, dates);
+        }
+
+        function renderMealBlock(meal, items, repeatedItems, dayIndex) {
+            return `<div class="menu-column"><h4>${meal}</h4><ul>${items.map(item => {
+                const repeatedClass = repeatedItems.includes(item) ? 'repeated' : '';
+                return `<li class="menu-item ${repeatedClass}"><label><input type="checkbox" value="${item}" name="${meal.toLowerCase()}" data-day="${dayIndex}"> ${item}` +
+                    (repeatedItems.includes(item) ? ' <strong>(repeat)</strong>' : '') + '</label></li>';
+            }).join('')}</ul></div>`;
+        }
+
+        function renderMenuSummary(pack, dates) {
+            const selectedDays = getSelectedDayItems(dates.length);
+            const repeatedAcrossDays = findRepeatedSelectionItems(selectedDays);
+            const headers = dates.map(date => `<th style="padding: 10px 8px; border-bottom:1px solid #ddd; text-align:left;">${date}</th>`).join('');
+            const rows = ['Breakfast', 'Lunch', 'Dinner'].map(meal => {
+                const cells = dates.map((_, dayIndex) => {
+                    const items = selectedDays[dayIndex][meal.toLowerCase()] || [];
+                    if (!items.length) {
+                        return '<td style="padding: 10px 8px; color:#777;">-</td>';
+                    }
+                    return `<td style="padding: 10px 8px; white-space: normal; line-height: 1.5;">${items.map(item => formatRepeatedSelectionItem(item, repeatedAcrossDays)).map(item => `<span class="selected-item">${item}</span>`).join('')}</td>`;
+                }).join('');
+                return `<tr><th style="padding: 10px 8px; border-bottom:1px solid #eee; text-align:left;">${meal}</th>${cells}</tr>`;
+            }).join('');
+
+            return `<h3>Selection Summary</h3>
+                <p><strong>Package:</strong> ${pack.title}</p>
+                <p><strong>Days:</strong> ${dates.length}</p>
+                <div class="summary-card"><table style="width:100%; border-collapse: collapse;">
+                    <thead><tr><th style="padding: 10px 8px; border-bottom:1px solid #ddd; text-align:left;">Meal</th>${headers}</tr></thead>
+                    <tbody>${rows}</tbody>
+                </table></div>`;
+        }
+
+        function buildEventDates(startDate, days) {
+            const base = new Date(startDate);
+            const dates = [];
+            for (let i = 0; i < days; i++) {
+                const day = new Date(base);
+                day.setDate(base.getDate() + i);
+                dates.push(day.toISOString().slice(0, 10));
+            }
+            return dates;
+        }
+
+        function getSelectedDayItems(dayCount) {
+            const selections = Array.from({ length: dayCount }, () => ({ breakfast: [], lunch: [], dinner: [] }));
+            document.querySelectorAll('#menuDetails input[type="checkbox"]:checked').forEach(cb => {
+                const dayIndex = Number(cb.dataset.day);
+                const meal = cb.name;
+                if (!Number.isNaN(dayIndex) && selections[dayIndex]) {
+                    selections[dayIndex][meal] = selections[dayIndex][meal] || [];
+                    selections[dayIndex][meal].push(cb.value);
+                }
+            });
+            return selections;
+        }
+
+        function findRepeatedSelectionItems(selections) {
+            const counts = {};
+            selections.forEach(day => {
+                ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+                    (day[meal] || []).forEach(item => {
+                        counts[item.toLowerCase()] = (counts[item.toLowerCase()] || 0) + 1;
+                    });
+                });
+            });
+            return Object.keys(counts).filter(key => counts[key] > 1);
+        }
+
+        function formatRepeatedSelectionItem(item, repeatedItems) {
+            return repeatedItems.includes(item.toLowerCase()) ? `<span class="repeated">${item}</span>` : item;
+        }
+
+        function findRepeatedItems(pack) {
+            const allItems = [...pack.breakfast, ...pack.lunch, ...pack.dinner].map(i => i.trim().toLowerCase());
+            return Object.entries(allItems.reduce((acc, item) => {
+                acc[item] = (acc[item] || 0) + 1;
+                return acc;
+            }, {})).filter(([_, count]) => count > 1).map(([item]) => item).map(low => {
+                const all = [...pack.breakfast, ...pack.lunch, ...pack.dinner];
+                return all.find(i => i.trim().toLowerCase() === low);
+            });
+        }
+
+        function saveSelection() {
+            const userType = document.getElementById('userType').value;
+            const userId = document.getElementById('userId').value;
+            const startDate = eventStartDate.value;
+            const selectedDayCount = parseInt(dayCount.value, 10) || 1;
+            const selectedKey = packageSelect.value;
+            const selectedItems = Array.from(document.querySelectorAll('#menuDetails input[type="checkbox"]:checked')).map(cb => `${cb.value} (${cb.name}, Day ${Number(cb.dataset.day) + 1})`);
+            if (!startDate) {
+                alert('Please select an event start date.');
+                return;
+            }
+            const eventDates = buildEventDates(startDate, selectedDayCount);
+            const pack = packageData[selectedKey];
+            const order = {
+                userType,
+                userId,
+                eventStartDate: startDate,
+                eventDates,
+                dayCount: selectedDayCount,
+                packageKey: selectedKey,
+                packageTitle: pack.title,
+                packagePrice: pack.price,
+                selectedItems,
+                timestamp: new Date().toISOString()
+            };
+            const savedData = JSON.parse(localStorage.getItem('cateringSelections') || '[]');
+            savedData.push(order);
+            localStorage.setItem('cateringSelections', JSON.stringify(savedData));
+            alert('Selection Saved: ' + selectedKey);
+            loadAllOrdersForSummary();
+        }
+
+        function generateBarcode() {
+            const selectedKey = packageSelect.value;
+            const pack = packageData[selectedKey];
+            const selectedItems = Array.from(document.querySelectorAll('#menuDetails input[type="checkbox"]:checked')).map(cb => cb.value);
+            const codeText = `Package:${pack.title}|Start:${eventStartDate.value}|Days:${dayCount.value}|Items:${selectedItems.join(',')}`;
+            const container = document.getElementById('barcodeContainer');
+            container.innerHTML = '<svg id="barcode"></svg>';
+            JsBarcode('#barcode', codeText, {
+                format: 'CODE128',
+                width: 2,
+                height: 80,
+                displayValue: true,
+                fontSize: 14,
+                margin: 10
+            });
+        }
+
+        function startPrint(mode) {
+            document.body.classList.add('print-mode');
+            document.body.classList.add(mode);
+            window.print();
+            window.onafterprint = () => {
+                document.body.classList.remove('print-mode', mode);
+                window.onafterprint = null;
+            };
+        }
+
+        function printMenu() {
+            startPrint('menu-print');
+        }
+
+        function printOrders() {
+            startPrint('admin-print');
+        }
+
+        function forwardToAdmin() {
+            const userType = document.getElementById('userType').value;
+            const userId = document.getElementById('userId').value;
+            const startDate = eventStartDate.value;
+            const selectedKey = packageSelect.value;
+            const selectedItems = Array.from(document.querySelectorAll('#menuDetails input[type="checkbox"]:checked')).map(cb => `${cb.value} (${cb.name}, Day ${Number(cb.dataset.day) + 1})`);
+            const pack = packageData[selectedKey];
+            const dates = buildEventDates(startDate, parseInt(dayCount.value, 10) || 1);
+            const summary = `User: ${userType} - ${userId}\nDates: ${dates.join(', ')}\nPackage: ${pack.title}\nItems: ${selectedItems.join(', ')}`;
+            window.location.href = `mailto:admin@example.com?subject=Catering Order&body=${encodeURIComponent(summary)}`;
+        }
+
+        function renderAdminPackageOptions() {
+            const select = document.getElementById('adminPackageSelect');
+            select.innerHTML = Object.keys(packageData).map(key => `<option value="${key}">${packageData[key].title}</option>`).join('');
+            renderAdminPackage();
+        }
+
+        document.getElementById('adminPackageSelect')?.addEventListener('change', renderAdminPackage);
+
+        function renderAdminPackage() {
+            const selectedKey = document.getElementById('adminPackageSelect').value;
+            const pack = packageData[selectedKey];
+            const repeatedItems = findRepeatedItems(pack);
+            let html = `<p><strong>Price:</strong> ${pack.price}</p>`;
+            html += renderAdminMealEditor('Breakfast', pack.breakfast, repeatedItems, selectedKey);
+            html += renderAdminMealEditor('Lunch', pack.lunch, repeatedItems, selectedKey);
+            html += renderAdminMealEditor('Dinner', pack.dinner, repeatedItems, selectedKey);
+            document.getElementById('adminPackageDetails').innerHTML = html;
+        }
+
+        function renderAdminMealEditor(meal, items, repeatedItems, packageKey) {
+            return `<div class="admin-card"><h4>${meal}</h4><ul>${items.map((item, index) => {
+                const repeatedClass = repeatedItems.includes(item) ? 'repeated' : '';
+                return `<li class="menu-item ${repeatedClass}">${item}` +
+                    `<button type="button" style="margin-left:auto; background:#c0392b;" onclick="deleteAdminItem('${packageKey}','${meal.toLowerCase()}',${index})">Delete</button>` +
+                    (repeatedItems.includes(item) ? ' <strong>(repeat)</strong>' : '') + '</li>';
+            }).join('')}</ul></div>`;
+        }
+
+        function addAdminItem() {
+            const name = document.getElementById('newItemName').value.trim();
+            const meal = document.getElementById('newItemMeal').value;
+            const selectedKey = document.getElementById('adminPackageSelect').value;
+            if (!name) {
+                alert('Enter a new item name.');
+                return;
+            }
+            packageData[selectedKey][meal].push(name);
+            savePackageData();
+            document.getElementById('newItemName').value = '';
+            renderMenuDetails();
+            renderAdminPackage();
+        }
+
+        function deleteAdminItem(packageKey, meal, index) {
+            packageData[packageKey][meal].splice(index, 1);
+            savePackageData();
+            renderMenuDetails();
+            renderAdminPackage();
+        }
+
+        function savePackageChanges() {
+            const selectedKey = document.getElementById('adminPackageSelect').value;
+            savePackageData();
+            alert('Package changes saved for ' + packageData[selectedKey].title);
+            renderMenuDetails();
+        }
+
+        function resetPackageToDefault() {
+            const selectedKey = document.getElementById('adminPackageSelect').value;
+            packageData[selectedKey] = JSON.parse(JSON.stringify(defaultPackages[selectedKey]));
+            savePackageData();
+            renderMenuDetails();
+            renderAdminPackage();
+            alert('Package reset to default: ' + packageData[selectedKey].title);
+        }
+
+        function loadAllOrdersForSummary() {
+            const savedData = JSON.parse(localStorage.getItem('cateringSelections') || '[]');
+            updateOrderSummary(savedData);
+        }
+
+        function loadData() {
+            const month = document.getElementById('monthSelect').value;
+            if (!month) {
+                alert('Please select a month');
+                return;
+            }
+            const savedData = JSON.parse(localStorage.getItem('cateringSelections') || '[]');
+            const filteredData = savedData.filter(item => {
+                const dates = item.eventDates || [item.eventDate];
+                return dates.some(date => date && date.startsWith(month));
+            });
+            const repeatedOrderItems = findRepeatedOrderItems(filteredData);
+            window.latestOrderResults = filteredData;
+            updateOrderSummary(filteredData);
+            let html = `<h3>Orders for ${month}</h3>`;
+            if (!filteredData.length) {
+                html += '<p>No orders found for this month.</p>';
+            } else {
+                filteredData.forEach((item, index) => {
+                    html += `<div class="admin-card order-card" data-index="${index}"><p><strong>Order #${index + 1}</strong></p>`;
+                    html += `<p><strong>User:</strong> ${item.userType} - ${item.userId}</p>`;
+                    if (item.customerPhone) {
+                        html += `<p><strong>Phone:</strong> ${item.customerPhone}</p>`;
+                    }
+                    html += `<p><strong>Dates:</strong> ${item.eventDates ? item.eventDates.join(', ') : item.eventDate}</p>`;
+                    html += `<p><strong>Package:</strong> ${item.packageTitle} (${item.packagePrice})</p>`;
+                    html += `<p><strong>Items:</strong> ${formatOrderItems(item.selectedItems, repeatedOrderItems)}</p>`;
+                    html += `<p><strong>Saved:</strong> ${new Date(item.timestamp).toLocaleString()}</p>`;
+                    html += `<label class="order-check"><input type="checkbox" data-index="${index}"> Menu Checked</label>`;
+                    html += `<div class="actions"><button type="button" onclick='generateAdminBarcode(${index})'>Generate Barcode</button><button type="button" onclick='shareOrderWhatsApp(${index})'>Send WhatsApp</button><button type="button" onclick='forwardOrderToCustomer(${index})'>Forward to Customer</button></div>`;
+                    html += `</div>`;
+                });
+            }
+            document.getElementById('dataDisplay').innerHTML = html;
+        }
+
+        function loadDataByDate() {
+            const date = document.getElementById('orderDateSelect').value;
+            if (!date) {
+                alert('Please select a date');
+                return;
+            }
+            const savedData = JSON.parse(localStorage.getItem('cateringSelections') || '[]');
+            const filteredData = savedData.filter(item => {
+                const dates = item.eventDates || [item.eventDate];
+                return dates.includes(date);
+            });
+            const repeatedOrderItems = findRepeatedOrderItems(filteredData);
+            window.latestOrderResults = filteredData;
+            updateOrderSummary(filteredData);
+            let html = `<h3>Orders for ${date}</h3>`;
+            if (!filteredData.length) {
+                html += '<p>No orders found for this date.</p>';
+            } else {
+                filteredData.forEach((item, index) => {
+                    html += `<div class="admin-card order-card" data-index="${index}"><p><strong>Order #${index + 1}</strong></p>`;
+                    html += `<p><strong>User:</strong> ${item.userType} - ${item.userId}</p>`;
+                    if (item.customerPhone) {
+                        html += `<p><strong>Phone:</strong> ${item.customerPhone}</p>`;
+                    }
+                    html += `<p><strong>Dates:</strong> ${item.eventDates ? item.eventDates.join(', ') : item.eventDate}</p>`;
+                    html += `<p><strong>Package:</strong> ${item.packageTitle} (${item.packagePrice})</p>`;
+                    html += `<p><strong>Items:</strong> ${formatOrderItems(item.selectedItems, repeatedOrderItems)}</p>`;
+                    html += `<p><strong>Saved:</strong> ${new Date(item.timestamp).toLocaleString()}</p>`;
+                    html += `<label class="order-check"><input type="checkbox" data-index="${index}"> Menu Checked</label>`;
+                    html += `<div class="actions"><button type="button" onclick='generateAdminBarcode(${index})'>Generate Barcode</button><button type="button" onclick='shareOrderWhatsApp(${index})'>Send WhatsApp</button><button type="button" onclick='forwardOrderToCustomer(${index})'>Forward to Customer</button></div>`;
+                    html += `</div>`;
+                });
+            }
+            document.getElementById('dataDisplay').innerHTML = html;
+        }
+
+        function generateAdminBarcode(index) {
+            const orders = window.latestOrderResults || [];
+            const order = orders[index];
+            if (!order) {
+                alert('Order not found');
+                return;
+            }
+            const barcodeText = `Order:${order.packageTitle}|Dates:${order.eventDates ? order.eventDates.join(',') : order.eventDate}|User:${order.userType}-${order.userId}|Items:${order.selectedItems.join(',')}`;
+            const container = document.getElementById('adminBarcodeContainer');
+            container.innerHTML = '<svg id="adminBarcode"></svg>';
+            JsBarcode('#adminBarcode', barcodeText, {
+                format: 'CODE128',
+                width: 2,
+                height: 80,
+                displayValue: true,
+                fontSize: 14,
+                margin: 10
+            });
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function forwardOrderToCustomer(index) {
+            const orders = window.latestOrderResults || [];
+            const order = orders[index];
+            if (!order) {
+                alert('Order not found');
+                return;
+            }
+            const message = `Hello, your catering order is ready.\nDates: ${order.eventDates ? order.eventDates.join(', ') : order.eventDate}\nPackage: ${order.packageTitle}\nItems: ${order.selectedItems.join(', ')}`;
+            const mailto = `mailto:?subject=Catering Order Confirmation&body=${encodeURIComponent(message)}`;
+            window.location.href = mailto;
+        }
+
+        function shareOrderWhatsApp(index) {
+            const orders = window.latestOrderResults || [];
+            const order = orders[index];
+            if (!order) {
+                alert('Order not found');
+                return;
+            }
+            const message = `Hello! Your catering order is ready.\nDates: ${order.eventDates ? order.eventDates.join(', ') : order.eventDate}\nPackage: ${order.packageTitle}\nItems: ${order.selectedItems.join(', ')}`;
+            const phone = document.getElementById('customerPhone').value.trim();
+            const whatsappUrl = phone
+                ? `https://api.whatsapp.com/send?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(message)}`
+                : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function printSelectedOrders() {
+            const checkboxes = Array.from(document.querySelectorAll('.order-check input[type="checkbox"]')).filter(cb => cb.checked);
+            if (!checkboxes.length) {
+                alert('Please check at least one order to print.');
+                return;
+            }
+            document.body.classList.add('print-selected-mode');
+            document.body.classList.add('print-mode');
+            document.body.classList.add('admin-print');
+            document.querySelectorAll('.admin-card').forEach(card => card.classList.remove('print-active'));
+            checkboxes.forEach(cb => {
+                const index = cb.dataset.index;
+                const card = document.querySelector(`.order-card[data-index="${index}"]`);
+                if (card) {
+                    card.classList.add('print-active');
+                }
+            });
+            window.onafterprint = () => {
+                document.body.classList.remove('print-selected-mode');
+                document.body.classList.remove('print-mode');
+                document.body.classList.remove('admin-print');
+                window.onafterprint = null;
+            };
+            window.print();
+        }
+
+        function updateOrderSummary(filteredData) {
+            const container = document.getElementById('orderSummary');
+            
+            if (!filteredData || filteredData.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; color:#999; text-align: center; padding: 20px;">No orders to summarize</div>';
+                return;
+            }
+
+            const totalOrders = filteredData.length;
+            const customerOrders = filteredData.filter(o => o.userType === 'user').length;
+            const adminOrders = filteredData.filter(o => o.userType === 'admin').length;
+            const totalRevenue = filteredData.reduce((sum, o) => {
+                const priceNum = parseInt(o.packagePrice.replace(/[^\d]/g, ''));
+                return sum + priceNum;
+            }, 0);
+
+            container.innerHTML = `
+                <div class="summary-stat" style="background:#fff3cd; border-color:#ffc107;">
+                    <div style="font-size:2rem; font-weight:bold; color:#856404;">📦</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#856404;">${totalOrders}</div>
+                    <div style="font-size:0.9rem; color:#856404;">Total Orders</div>
+                </div>
+                <div class="summary-stat" style="background:#d1ecf1; border-color:#17a2b8;">
+                    <div style="font-size:2rem; font-weight:bold; color:#0c5460;">👥</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#0c5460;">${customerOrders}</div>
+                    <div style="font-size:0.9rem; color:#0c5460;">Customer</div>
+                </div>
+                <div class="summary-stat" style="background:#d4edda; border-color:#28a745;">
+                    <div style="font-size:2rem; font-weight:bold; color:#155724;">🔧</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#155724;">${adminOrders}</div>
+                    <div style="font-size:0.9rem; color:#155724;">Admin</div>
+                </div>
+                <div class="summary-stat" style="background:#e2e3e5; border-color:#6c757d;">
+                    <div style="font-size:2rem; font-weight:bold; color:#383d41;">💰</div>
+                    <div style="font-size:1.8rem; font-weight:bold; color:#383d41;">${totalRevenue}</div>
+                    <div style="font-size:0.9rem; color:#383d41;">Revenue</div>
+                </div>
+            `;
+        }
+
+        function formatOrderItems(items, repeatedItems) {
+            if (!items || !items.length) return 'None';
+            return items.map(item => {
+                const baseItem = item.replace(/\s*\(.*?\)$/, '').trim();
+                const baseLower = baseItem.toLowerCase();
+                const isRepeated = repeatedItems.some(repItem => repItem.toLowerCase() === baseLower);
+                const formatted = isRepeated 
+                    ? `<span class="repeated" title="Appears in multiple orders">${item}</span>` 
+                    : item;
+                return `<span class="selected-item">${formatted}</span>`;
+            }).join('');
+        }
+
+        function findRepeatedOrderItems(orders) {
+            if (!orders || orders.length === 0) return [];
+            const itemCounts = {};
+            orders.forEach(order => {
+                if (order.selectedItems && Array.isArray(order.selectedItems)) {
+                    order.selectedItems.forEach(item => {
+                        const baseItem = item.replace(/\s*\(.*?\)$/, '').trim();
+                        const baseLower = baseItem.toLowerCase();
+                        itemCounts[baseLower] = (itemCounts[baseLower] || 0) + 1;
+                    });
+                }
+            });
+            return Object.keys(itemCounts).filter(key => itemCounts[key] > 1);
+        }
+    </script>
+</body>
+</html>
+
